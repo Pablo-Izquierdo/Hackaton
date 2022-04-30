@@ -8,6 +8,7 @@ const genero = new mongoose.Schema({
 
 async function validateGenero(nombre) {
 
+    // parametros
     const filter = nombre;
     const generos = await Genero.find({});
 
