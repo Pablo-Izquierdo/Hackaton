@@ -5,6 +5,7 @@ const local = new mongoose.Schema({
     generos: [
         {type: mongoose.Types.ObjectId }
     ],
+    str_generos: {type: String, required: true},
     direccion: {type: String, required: true, maxlength: 200 },
     coordenadas: [
         {type: Number, required: true}
