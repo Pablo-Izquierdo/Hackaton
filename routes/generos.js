@@ -1,4 +1,6 @@
 const express = require('express');
+const { route } = require('express/lib/application');
+const req = require('express/lib/request');
 const mongoose = require('mongoose');
 const {Genero} = require('../models/genero');
 
@@ -24,3 +26,22 @@ router.post('/', async (req, res) => {
     res.status(201).send(genero);
 
 });
+
+router.get('/:id', async (req, res) => { //dame genero
+    const genero = await Genero.findbyId(req.param.id);
+    if(!genero) return res.status(404).send('NO user with that id was found')
+    res.status(200).send(genero)
+});
+
+router.delete('/:id', async (req, res) => {
+
+    const genero = await Genero.findbyId(req.param.id);
+    if(!genero) return res.status(404).send('NO user with that id was found')
+    res.status(200).send(genero)
+
+});
+
+router.put('/:id', asynq (req, res) => {
+    const genero = await Genero.findByIdAndUpdate(req.body, 
+        {nombre : req.body.nombre}, {new : true})
+})
