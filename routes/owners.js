@@ -22,8 +22,16 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
 
-    
+    // New genero
+    const owner = new Owner({
+        nombre : req.body.nombre,
+        nombreEmpresa: req.body.nombreEmpresa,
+        listaLocales: req.body.listaLocales,
+        password: req.body.password
+    });
 
+    await owner.save();
+    res.status(201).send(owner);
 
 });
 

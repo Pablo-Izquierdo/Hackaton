@@ -24,12 +24,6 @@ router.get('/', async (req, res) => {
     res.send(localsFiltered).status(200);
 });
 
-router.get('/request:local', async (req, res) => {
-
-    // Obtengo los locales
-    const locals = await Local.find({});
-});
-
 router.post('/:id', async (req, res) => {
     
     // Parametros
@@ -39,20 +33,46 @@ router.post('/:id', async (req, res) => {
     for (i=0; i<req.body.generos.maxlength(); i++) {
         // verificar el string de los generos
         const genero = Genero.validate(req.body.nombre);
+        let code = 201;
+        if(!genero){
+            code = 404;
+        }
         
         // añadir el id del genero al local
         txt_generos += req.body.generos[i].nombre;
     }
-
-    const nLocal = new Local ({
-        nombre: req.body.nombre,
-        // cambiar a los objects
-        generos: generos,
-        description: txt_generos,
-        direccion: req.body.direccion,
-        coordenadas: req.body.coordenadas
-    });
+    if(code == 201){
+        const nLocal = new Local ({
+            nombre: req.body.nombre,
+            // cambiar a los objects
+            generos: req.body.generos,
+            description: txt_generos,
+            direccion: req.body.direccion
+        });
+    }
 
     await nLocal.save();
-    res.status(201).send(nLocal);
+    res.status(code).send(nLocal); // DEVOLVEMOS CODIGO ERROR
 });
+
+router.delete('/:id', async (req, res) => {
+
+    // Encontramos el local a eliminar
+    const local = await Local.findById(req.params.id, {}, {new : true}); 
+
+    // Comprobamos que no es nulo
+    if (!local) res.status(404).send('No se ha encontrado el local especificado.');
+
+    res.status(200).send(local);
+
+});
+
+router.put('/:id', async (req, res) => {
+    const local = await Local.findByIdAndUpdate(req.body, {
+        nombre : req.body.nombre,
+        generos : req.body.generos,
+        descripcion : req.body.descripcion,
+        direccion : req.body.direccion
+    }, {new : true})});
+
+module.exports = router;

@@ -7,10 +7,8 @@ const local = new mongoose.Schema({
         {type: mongoose.Types.ObjectId }
     ],
     description: {type: String, required: true},
-    direccion: {type: String, required: true, maxlength: 200 },
-    coordenadas: [
-        {type: Number, required: true}
-    ]
+    direccion: {type: String, required: true, maxlength: 200 }
+    
 });
 
 async function getRecomendation(local) {

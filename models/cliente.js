@@ -10,7 +10,7 @@ const cliente = new mongoose.Schema({
     edad: [
         {type: Number, required: true}
     ],
-    Mujer: boolean,
+    mujer: boolean,
 });
 
 // Creo la clase
